@@ -49,3 +49,29 @@ router.post("/", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+//PUT (UPDATE) a user by ID
+router.put("/:id", async (req, res) => {
+  try {
+    const { name, email, password, school, grading_scale_id } = req.body;
+    await db.query(
+      `UPDATE users SET name = ?, email = ?, school = ?, grading_scale_id = ? WHERE id = ?`,
+      [name, email, school, grading_scale_id, req.params.id],
+    );
+    res.json({ message: "User updated successfully!" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// DELETE a user
+router.delete("/:id", async (req, res) => {
+  try {
+    await db.query(`DELETE FROM users WHERE id = ?`, [req.param.id]);
+    res.json({ message: "User Deleted Successfully!" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+module.exports = router;
