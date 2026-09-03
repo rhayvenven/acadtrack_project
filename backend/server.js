@@ -7,6 +7,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+const gradingScalesRoutes = require("./routes/gradingScales");
+app.use("/grading-scales", gradingScalesRoutes);
+
 const PORT = process.env.PORT || 5000;
 
 app.get("/", (req, res) => {
