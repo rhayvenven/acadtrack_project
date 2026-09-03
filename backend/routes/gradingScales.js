@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const db = require("../config/db");
 
+// GET ALL grading scales
 router.get("/", async (req, res) => {
   try {
     const [rows] = await db.query("SELECT * FROM grading_scales");
@@ -11,6 +12,7 @@ router.get("/", async (req, res) => {
   }
 });
 
+// GET one grading scale by ID
 router.get("/:id", async (req, res) => {
   try {
     const [rows] = await db.query("SELECT * FROM grading_scales WHERE id = ?", [
@@ -24,8 +26,25 @@ router.get("/:id", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-
+// POST (CREATE) a new grading scale
 router.post("/", async (req, res) => {
+  try {
+    const { school_name, scale_type, best_value, worst_value, passing_value } =
+      req.body;
+    const [result] = await db.query(
+      "INSERT INTO grading_scales (school_name, scale_type, best_value, worst_value, passing_value) VALUES (?, ?, ?, ?, ?)",
+      [school_name, scale_type, best_value, worst_value, passing_value],
+    );
+    res.status(201).json({
+      id: result.insertId,
+      ...req.body,
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+// PUT (UPDATE)
+router.put("/:id", async (req, res) => {
   try {
     const { school_name, scale_type, best_value, worst_value, passing_value } =
       req.body;
@@ -48,6 +67,7 @@ router.post("/", async (req, res) => {
   }
 });
 
+// DELETE
 router.delete("/:id", async (req, res) => {
   try {
     await db.query("DELETE FROM grading_scales WHERE id = ?", [req.params.id]);
