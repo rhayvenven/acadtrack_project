@@ -10,6 +10,12 @@ app.use(express.json());
 const gradingScalesRoutes = require("./routes/gradingScales");
 app.use("/grading-scales", gradingScalesRoutes);
 
+const usersRoutes = require("./routes/users");
+app.use("/users", usersRoutes);
+
+const termsRoutes = require("./routes/terms");
+app.use("/terms", termsRoutes);
+
 const PORT = process.env.PORT || 5000;
 
 app.get("/", (req, res) => {
