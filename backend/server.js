@@ -19,6 +19,18 @@ app.use("/terms", termsRoutes);
 const subjectsRoutes = require("./routes/subjects");
 app.use("/subjects", subjectsRoutes);
 
+const assessmentTypesRoutes = require("./routes/assessmentTypes");
+app.use("/assessment-types", assessmentTypesRoutes);
+
+const gradesRoutes = require("./routes/grades");
+app.use("/grades", gradesRoutes);
+
+const attendanceLogsRoutes = require("./routes/attendanceLogs");
+app.use("/attendance-logs", attendanceLogsRoutes);
+
+const studyLogsRoutes = require("./routes/studyLogs");
+app.use("/study-logs", studyLogsRoutes);
+
 const PORT = process.env.PORT || 5000;
 
 app.get("/", (req, res) => {
