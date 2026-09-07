@@ -1,0 +1,19 @@
+# Created by venv; see https://docs.python.org/3/library/venv.html
+
+# Virtual environment
+venv/
+
+# Environment variables
+.env
+
+# Python cache/bytecode
+__pycache__/
+*.pyc
+*.pyo
+
+# FastAPI/Uvicorn logs (if any get created)
+*.log
+
+# OS-specific junk files (optional but common)
+.DS_Store
+Thumbs.db
