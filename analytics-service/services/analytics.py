@@ -83,3 +83,35 @@ def calculate_needed_score(user_id, target_grade=75):
             "at_risk": is_at_risk
         })
     return results
+
+def calculate_declining_trend(user_id):
+    grade_rows = get_user_subject_grades(user_id)
+
+    subjects = {}
+    for row in grade_rows:
+        subject_id = row["subject_id"]
+        if subject_id not in subjects:
+            subjects[subject_id] = {
+                "subject_name": row["subject_name"],
+                "scores": []
+            }
+        percentage_score = (row["raw_score"] / row["max_score"]) * 100
+        subjects[subject_id]["scores"].append(percentage_score)
+
+    results = []
+    for subject_id, data in subjects.items():
+        scores = data["scores"]
+        is_declining = False
+
+        if len(scores) >= 3:
+            last_three = scores[-3:]
+            is_declining = last_three[0] > last_three[1] > last_three[2]
+
+        results.append({
+            "subject_id": subject_id,
+            "subject_name": data["subject_name"],
+            "recent_scores": scores,
+            "declining_trend": is_declining
+        })
+
+    return results

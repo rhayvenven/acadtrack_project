@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from config.db import get_connection
 from services.normalization import normalize_grade
 from services.queries import get_user_grading_scale, get_user_subject_grades
-from services.analytics import calculate_subject_averages, calculate_needed_score
+from services.analytics import calculate_subject_averages, calculate_needed_score, calculate_declining_trend
 app = FastAPI()
 
 
@@ -46,3 +46,7 @@ def subject_averages(user_id: int):
 @app.get("/needed-score/{user_id}")
 def needed_score(user_id: int, target: float = 75):
     return calculate_needed_score(user_id, target)
+
+@app.get("/declining-trend/{user_id}")
+def declining_trend(user_id: int):
+    return calculate_declining_trend(user_id)
